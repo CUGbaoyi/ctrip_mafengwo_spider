@@ -1,0 +1,34 @@
+CREATE TABLE `ctrip_blog` (
+  `user_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `create_time` text COLLATE utf8mb4_unicode_ci,
+  `blog` blob,
+  `scenery_star` int(1) DEFAULT NULL,
+  `interest_star` int(1) DEFAULT NULL,
+  `performance_star` int(1) DEFAULT NULL,
+  `star` int(1) DEFAULT NULL,
+  `travel_time` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scenery` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  UNIQUE KEY `ctrip_blog_user_name_scenery_pk` (`user_name`,`scenery`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+CREATE TABLE `ctrip_pics` (
+  `md5` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pic_url` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pic_bin` mediumblob,
+  `exif` blob,
+  `reserve` blob,
+  PRIMARY KEY (`md5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+CREATE TABLE `ctrip_relationship` (
+  `md5` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reserve` blob,
+  `scenery` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`md5`,`user_name`),
+  KEY `ctrip_relationship_ctrip_blog_comment_id_fk` (`user_name`),
+  KEY `ctrip_relationship_ctrip_blog_user_name_scenery_fk` (`user_name`,`scenery`),
+  CONSTRAINT `ctrip_relationship_ctrip_blog_user_name_scenery_fk` FOREIGN KEY (`user_name`, `scenery`) REFERENCES `ctrip_blog` (`user_name`, `scenery`),
+  CONSTRAINT `ctrip_relationship_ctrip_pics_md5_fk` FOREIGN KEY (`md5`) REFERENCES `ctrip_pics` (`md5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+

@@ -1,0 +1,31 @@
+CREATE TABLE `mafengwo_blog` (
+  `user_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `create_time` text COLLATE utf8mb4_unicode_ci,
+  `blog` blob,
+  `star` int(11) DEFAULT NULL,
+  `comment_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `scenery` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+CREATE TABLE `mafengwo_pics` (
+  `md5` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pic_url` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pic_bin` mediumblob,
+  `exif` blob,
+  `reserve` blob,
+  `scenery` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`md5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
+CREATE TABLE `mafengwo_relationship` (
+  `md5` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reserve` blob,
+  `scenery` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`md5`,`id`),
+  KEY `mafengwo_relationship_mafengwo_blog_comment_id_fk` (`id`),
+  CONSTRAINT `mafengwo_relationship_mafengwo_blog_comment_id_fk` FOREIGN KEY (`id`) REFERENCES `mafengwo_blog` (`comment_id`),
+  CONSTRAINT `mafengwo_relationship_mafengwo_pics_md5_fk` FOREIGN KEY (`md5`) REFERENCES `mafengwo_pics` (`md5`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
