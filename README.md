@@ -9,6 +9,8 @@
 ---
 #### 更新
 
-更改baseurl 查找自己目标景区的相关url规律，改代码
+更改baseurl 查找自己目标景区的相关url规律，改代码。
+
 先运行get_ctrip_poiid.py 获取poiid以后再运行 ctrip_all.py 
+
 如果不需要存入mongo 可以自行删除 相关数据库操作代码
